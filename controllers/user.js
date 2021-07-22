@@ -83,6 +83,14 @@ exports.saveAddress = async (req, res) => {
   res.json({ ok: true });
 };
 
+exports.savePhone = async(req,res)=>{
+  const userPhone = await User.findOneAndUpdate(
+      {email:req.user.email},
+      {phone:req.body.phone}
+  ).exec()
+  res.json({ok:true})
+}
+
 exports.applyCouponToUserCart = async (req, res) => {
   const { coupon } = req.body;
   console.log("COUPON", coupon);
