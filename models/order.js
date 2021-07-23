@@ -27,6 +27,19 @@ const orderSchema = new mongoose.Schema(
         "Completed",
       ],
     },
+    userDetails: { 
+      id:{type:String},
+      name:{
+        type:String
+      },
+      email:{
+        type:String
+      },
+      phone:{
+        type:String,
+      }, 
+      address: String,
+    },
     orderdBy: { type: ObjectId, ref: "User" },
   },
   { timestamps: true }

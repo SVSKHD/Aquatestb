@@ -55,6 +55,13 @@ exports.userCart = async (req, res) => {
   res.json({ ok: true });
 };
 
+
+exports.getAllUsers = async (req,res)=>{
+  const users = await User.find({}).exec()
+  res.json(users)
+}
+
+
 exports.getUserCart = async (req, res) => {
   const user = await User.findOne({ email: req.user.email }).exec();
 
@@ -141,6 +148,12 @@ exports.createOrder = async (req, res) => {
     products,
     paymentIntent,
     orderdBy: user._id,
+    userDetails:{ 
+    id:user._id,
+    name:user.name,
+    email:user.email,
+    phone:user.phone
+    }
   }).save();
 
   // decrement quantity, increment sold
@@ -224,10 +237,10 @@ exports.createCashOrder = async (req, res) => {
     paymentIntent: {
       id: uniqueid(),
       amount: finalAmount,
-      currency: "usd",
+      currency: "INR",
       status: "Cash On Delivery",
       created: Date.now(),
-      payment_method_types: ["cash"],
+      payment_method_types: ["Cash"],
     },
     orderdBy: user._id,
     orderStatus: "Cash On Delivery",

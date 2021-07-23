@@ -24,3 +24,13 @@ exports.getall = async(req,res)=>{
 exports.all = async(req,res)=>{
     
 }
+
+exports.update=async(req,res)=>{
+  try {
+    if(req.body.title){
+      
+    }
+  } catch (error) {
+    
+  }
+}

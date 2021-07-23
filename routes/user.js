@@ -3,7 +3,7 @@ const express = require("express");
 const router = express.Router();
 
 // middlewares
-const { authCheck } = require("../middlewares/auth");
+const { authCheck, adminCheck } = require("../middlewares/auth");
 // controllers
 const {
   userCart,
@@ -18,6 +18,7 @@ const {
   wishlist,
   removeFromWishlist,
   createCashOrder,
+  getAllUsers,
 } = require("../controllers/user");
 
 router.post("/user/cart", authCheck, userCart); // save cart
@@ -29,6 +30,7 @@ router.post("/user/phone" ,authCheck , savePhone)
 router.post("/user/order", authCheck, createOrder); // stripe
 router.post("/user/cash-order", authCheck, createCashOrder); // cod
 router.get("/user/orders", authCheck, orders);
+router.get("/users/alldata" , authCheck , adminCheck , getAllUsers)   //getallusers 
 
 // coupon
 router.post("/user/cart/coupon", authCheck, applyCouponToUserCart);
