@@ -22,6 +22,19 @@ const blogSchema = new mongoose.Schema({
        type:String,
        maxlength:5000
     },
+    specs:{
+      type:String,
+      maxlength:3000,
+    },
+    price:{
+      type:Number,
+    },
+    suggestion:{
+       type:"String" 
+    },
+    link:{
+        type:String,
+    },
     featuredImage:{
         type:Array,
     },
@@ -29,8 +42,12 @@ const blogSchema = new mongoose.Schema({
        type:ObjectId,
        ref:"Product"
     },
-    specs:{
+    pros:{
        type:String,
+    },
+    blogcategory:{
+      type:ObjectId,
+      ref:"BlogCategory"
     },
 
 },{timestamps:true})
