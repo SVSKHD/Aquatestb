@@ -86,7 +86,6 @@ exports.saveAddress = async (req, res) => {
     { email: req.user.email },
     { address: req.body.address }
   ).exec();
-
   res.json({ ok: true });
 };
 
@@ -241,6 +240,12 @@ exports.createCashOrder = async (req, res) => {
       status: "Cash On Delivery",
       created: Date.now(),
       payment_method_types: ["Cash"],
+    },
+    userDetails:{ 
+      id:user._id,
+      name:user.name,
+      email:user.email,
+      phone:user.phone
     },
     orderdBy: user._id,
     orderStatus: "Cash On Delivery",

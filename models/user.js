@@ -14,7 +14,7 @@ const userSchema = new mongoose.Schema(
       default: "subscriber",
     },
     phone:{
-      type:String,
+      type:Number,
     },
     cart: {
       type: Array,
