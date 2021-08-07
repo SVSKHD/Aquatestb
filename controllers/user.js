@@ -4,6 +4,15 @@ const Cart = require("../models/cart");
 const Coupon = require("../models/coupon");
 const Order = require("../models/order");
 const uniqueid = require("uniqueid");
+require("dotenv").config();
+// Email
+const sgMail = require("@sendgrid/mail")
+sgMail.setApiKey(process.env.Email)
+
+
+
+
+
 
 exports.userCart = async (req, res) => {
   // console.log(req.body); // {cart: []}
@@ -137,6 +146,31 @@ exports.applyCouponToUserCart = async (req, res) => {
 exports.createOrder = async (req, res) => {
   // console.log(req.body);
   // return;
+  
+
+  const msg = {
+    to:`aquakart8@gmail.com`,
+    from:`kundanakent@gmail.com`,
+    subject:`hello there is a new Order from Aquakart Please check the Admin Panel`,
+    text:`Please open the admin portal of AquaKart`,
+    html:`<!doctype html>
+    <html lang="en">
+      <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+      <title>${this.subject}</title>
+      </head>
+      <body>
+        <h1>Hello It's wonderfull that we have got another order</h1>
+       
+
+        <!-- Option 1: Bootstrap Bundle with Popper -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
+      </body>
+    </html>
+    `,
+  }
   const { paymentIntent } = req.body.stripeResponse;
 
   const user = await User.findOne({ email: req.user.email }).exec();
@@ -169,6 +203,16 @@ exports.createOrder = async (req, res) => {
   console.log("PRODUCT QUANTITY-- AND SOLD++", updated);
 
   console.log("NEW ORDER SAVED", newOrder);
+
+// email
+sgMail
+.send(msg)
+.then((resp)=>{
+  console.log("New Order Notified")
+})
+.catch((error)=>{
+  console.error(error)
+})
   res.json({ ok: true });
 };
 
@@ -214,6 +258,31 @@ exports.removeFromWishlist = async (req, res) => {
 };
 
 exports.createCashOrder = async (req, res) => {
+  const msg = {
+    to:`aquakart8@gmail.com`,
+    from:`kundanakent@gmail.com`,
+    subject:`hello there is a new Cash on delivery Order from Aquakart.`,
+    text:`Please open the admin portal of AquaKart`,
+    html:`<!doctype html>
+    <html lang="en">
+      <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+      <title>${this.subject}</title>
+      </head>
+      <body>
+        <h1>Hello It's wonderfull that we have got another order</h1>
+       
+
+        <!-- Option 1: Bootstrap Bundle with Popper -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
+      </body>
+    </html>
+    `,
+  }
+  
+  
   const { COD, couponApplied } = req.body;
   // if COD is true, create order with status of Cash On Delivery
 
@@ -265,5 +334,13 @@ exports.createCashOrder = async (req, res) => {
   console.log("PRODUCT QUANTITY-- AND SOLD++", updated);
 
   console.log("NEW ORDER SAVED", newOrder);
+  sgMail
+.send(msg)
+.then((resp)=>{
+  console.log("New Order Notified")
+})
+.catch((error)=>{
+  console.error(error)
+})
   res.json({ ok: true });
 };
